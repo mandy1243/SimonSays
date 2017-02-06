@@ -1,0 +1,337 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title> Simon Says: Player Mode</title>
+		<!-- THIS IS WHERE LINKS GO -->
+		<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+		<!-- THIS IS WHERE SCRIPTS GO -->
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+		<script type="text/javascript">
+			/// SOCKET STUFF
+			var socket = io.connect();
+			
+			socket.on('connect', function() {
+				console.log("Connected");
+			});
+
+			var x;
+			function changePink() {
+			    if (x === 1) {
+			        color = "white";
+			        x = 2;
+			    } else{
+			        color = "#FF0DFF";
+			    }
+			    document.getElementById('box1').style.background = color;
+			}
+
+			socket.on('box1output', function(){
+				console.log('Simon Says: to click box 1!');
+				x = 1;
+				setInterval(changePink, 300);
+			});
+
+			function changeGreen() {
+			    if (x === 3) {
+			        color = "white";
+			        x = 4;
+			    } else{
+			        color = "#7AFF0D";
+			    }
+			    document.getElementById('box2').style.background = color;
+			}
+
+			socket.on('box2output', function(){
+				console.log('Simon Says: to click box 2!');
+				x = 3;
+				setInterval(changeGreen, 300);
+
+			});
+
+			function changeBlue() {
+			    if (x === 5) {
+			        color = "white";
+			        x = 6;
+			    } else{
+			        color = "#20FFF0";
+			    }
+			    document.getElementById('box3').style.background = color;
+			}
+
+			socket.on('box3output', function(){
+				console.log('Simon Says: to click box 3!');
+				x = 5;
+				setInterval(changeBlue, 300);
+
+			});
+
+			function changeYellow() {
+			    if (x === 7) {
+			        color = "white";
+			        x = 8;
+			    } else{
+			        color = "#FFFD20";
+			    }
+			    document.getElementById('box4').style.background = color;
+			}
+
+			socket.on('box4output', function(){
+				console.log('Simon Says: to click box 3!');
+				x = 7;
+				setInterval(changeYellow, 300);
+
+			});
+
+			////// DO EVENT LISTENERS AFTER PAGE HAS LOADED
+			function init(){
+				// These are event listeners after the page has loaded.
+				document.getElementById('box1').addEventListener('mousedown', box1success);
+				document.getElementById('box2').addEventListener('mousedown', box2success);
+				document.getElementById('box3').addEventListener('mousedown', box3success);
+				document.getElementById('box4').addEventListener('mousedown', box4success);
+
+				// These are functions for the server to understand.
+				function box1success(){
+					console.log("Player successfully clicked same signal! ")
+					socket.emit('box1Success');
+				}
+				function box2success(){
+					console.log("Player successfully clicked same signal")
+					socket.emit('box2Success');
+				}
+				function box3success(){
+					console.log("Player successfully clicked same signal")
+					socket.emit('box3Success');
+				}
+				function box4success(){
+					console.log("Player successfully clicked same signal")
+					socket.emit('box4Success');
+				}
+			}
+
+			window.addEventListener('load', init);
+	
+		</script>
+		<!-- THIS IS WHERE STYLE GOES -->
+		<style>
+			*{
+				box-sizing: border-box;
+			}
+			html, body{
+				margin:0;
+				padding:0;
+				height:100%;
+				background-image: url("oldDisplay2.jpg");
+				background-size:contain;
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+
+			h1{
+				position:absolute;
+				left:17%;
+				font-family: 'Press Start 2P', cursive;
+				font-size: 20px;
+				padding-top:35px;
+			}
+
+			.popup{
+				position:absolute;
+				left:46%;
+				top:14%;
+				font-size: 20px;
+				font-family: 'Press Start 2P', cursive;
+				letter-spacing: .02em;
+				padding-top:35px;
+				color:#8F8D89;
+				text-decoration: none;
+			}
+
+			h3{
+				position:absolute;
+				left:45.5%;
+				top:60%;
+				font-family: 'Press Start 2P', cursive;
+				font-size: 20px;
+				padding-top:35px;
+				color:#1F36FF;
+			}
+
+			a:hover{
+				color:red;
+				text-decoration: none;
+			}
+
+		/*	#bg{
+				background-image: url("oldDisplayWeb.jpg");
+				background-size:cover;
+				width:100%;
+			}*/
+			.grid{
+				display:flex;
+				flex-wrap: wrap;
+				height:250px;
+				width:300px;
+				position:absolute;
+				left:38.5%;
+				top:26%;
+				justify-content: space-between;
+			}
+			.box{
+				
+				width:145px;
+				height:115px;
+			}
+			#box1{
+				background-color: #FF0DFF;
+				
+			}
+			#box2{
+				background-color: #7AFF0D;
+				
+			}
+			#box3{
+				background-color: #20FFF0;
+			}
+			#box4{
+				background-color: #FFFD20;
+			
+			}
+			/*@media(max-width: 600px){
+				.grid{
+					height:100%;
+				}
+				.box{
+					width:100%;
+					height:30%;
+				}
+				#box1{
+					border:none;
+				}
+				#box2{
+					border:none;
+					border-top:5px solid white;
+				}
+				#box3{
+					border:none;
+					border-top:5px solid white;
+				}
+				#box4{
+					border:none;
+					border-top:5px solid white;
+				}
+			}*/ /* end media query*/
+
+			<style>
+
+		/* THIS IS A POPUP CONTAINER */
+			/* Popup container */
+		.popup {
+		    position: relative;
+		    display: inline-block;
+		    cursor: pointer;
+
+		    position:absolute;
+			left:46%;
+			top:14%;
+			font-size: 20px;
+			font-family: 'Press Start 2P', cursive;
+			letter-spacing: .02em;
+			padding-top:35px;
+			color:#8F8D89;
+			text-decoration: none;
+		}
+
+		/* The actual popup (appears on top) */
+		.popup .popuptext {
+		    visibility: hidden;
+    		width: 400px;
+    		background-color: rgba(0, 0, 0, .5);
+			color: #fff;
+			text-align: l;
+			border-radius: 6px;
+			padding: 8px 8px;
+			position: absolute;
+			z-index: 1;
+			top: 135%;
+			/*left: 50%;*/
+			margin-left: -150px;
+			font-family: 'Open Sans Condensed', sans-serif;
+
+		}
+
+		/* Popup arrow */
+	/*	.popup .popuptext::after {
+		    content: "";
+		    position: absolute;
+		    top: 25%;
+		    left: 50%;
+		    margin-left: -5px;
+		    border-width: 5px;
+		    border-style: solid;
+		    border-color: #555 transparent transparent transparent;
+		}*/
+
+		/* Toggle this class when clicking on the popup container (hide and show the popup) */
+		.popup .show {
+		    visibility: visible;
+		    -webkit-animation: fadeIn 1s;
+		    animation: fadeIn 1s
+		}
+
+		/* Add animation (fade in the popup) */
+		@-webkit-keyframes fadeIn {
+		    from {opacity: 0;} 
+		    to {opacity: 1;}
+		}
+
+		@keyframes fadeIn {
+		    from {opacity: 0;}
+		    to {opacity:1 ;}
+		}
+
+		</style>
+
+		<script>
+
+		</script>
+	</head>
+
+	<body>
+	<h1>Lets play some old school games, Simon Says. </h1>
+	<div class="popup" onclick="myFunction()"> RULES
+  		<span class="popuptext" id="myPopup"><p>Object: Continue to repeat a longer and longer sequence.<p>
+
+  		1. Simon will give the first signal. Repeat the signal by pressing the same color.
+  		<br>
+  		2. Simon will duplicate the first signal and add one. Repeat these two signals by pressing the same color lenses, in order.
+  		<br>
+  		3.Continue playing along as long as you can repeat each sequence of signals correctly.<br>
+
+  		<p> Click again to exit rules. </p>
+
+  		</span>
+	</div>
+	<h3>player</h3>
+		<div class="grid">
+			<button class="box" id="box1" id="box1Signal" id="box1Success"></button>
+			<button class="box" id="box2" id="box2Signal" id="box2Success"></button>
+			<button class="box" id="box3" id="box3Signal" id="box3Success"></button>
+			<button class="box" id="box4" id="box4sSignal" id="box4Success"></button>
+		</div>
+	<script type = "text/javascript">
+		// JAVASCRIPT FOR POPUP
+		// When the user clicks on <div>, open the popup
+		function myFunction() {
+    			var popup = document.getElementById("myPopup");
+    			popup.classList.toggle("show");
+			}
+	</script>
+
+	</body>
+
+</html>
