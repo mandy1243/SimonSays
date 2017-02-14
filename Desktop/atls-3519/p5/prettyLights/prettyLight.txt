@@ -1,0 +1,1 @@
+This is a project about using particles and attractors to create a beautiful array of unique visuals. 
